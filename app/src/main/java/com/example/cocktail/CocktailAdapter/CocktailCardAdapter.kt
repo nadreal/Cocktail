@@ -8,46 +8,46 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cocktail.R
-import com.example.cocktail.data.DataSource
-import com.example.cocktail.data.DataSource.cocktail
 import com.example.cocktail.model.Cocktail
+import com.example.cocktail.model.Cocktails
+import com.example.cocktail.network.ApiService
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
-
-class CocktailCardAdapter (
-    private val context: Context?,
-
+class CocktailCardAdapter(
+    private val context: Context?, var mCoctails: MutableList<Cocktail>
 ): RecyclerView.Adapter<CocktailCardAdapter.CocktailCardViewHolder>() {
-    val dogs: List<Cocktail> = DataSource.cocktail
 
-    /**
-     * Initialize view elements
-     */
-    class CocktailCardViewHolder(view: View?): RecyclerView.ViewHolder(view!!) {
-        val cocktailName: TextView = view?.findViewById(R.id.dog_name)!!
-        val cocktailGlassType: TextView = view?.findViewById(R.id.dog_age)!!
-        val cocktailImage: ImageView = view?.findViewById(R.id.iw_image)!!
+    class CocktailCardViewHolder(view: View?) : RecyclerView.ViewHolder(view!!) {
+        val cocktailName: TextView = view?.findViewById(R.id.cocktail_name)!!
+        val cocktailGlassType: TextView = view?.findViewById(R.id.cocktail_glass)!!
+        val cocktailImage: ImageView = view?.findViewById(R.id.cocktail_image)!!
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CocktailCardViewHolder {
-        var adapterLayout: View =
-            LayoutInflater.from(parent.context).inflate(R.layout.vertical_list_item, parent, false)
-        adapterLayout = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.vertical_list_item, parent, false)
-               return CocktailCardViewHolder(adapterLayout)
-        }
-
-
-    override fun getItemCount(): Int = cocktail.size
-
-    override fun onBindViewHolder(holder: CocktailCardAdapter.CocktailCardViewHolder, position: Int) {
-        val cocktail = cocktail[position]
-        println(cocktail.name)
-        println(cocktail.glasstype)
-        val resources = context?.resources
-
-        holder.cocktailImage.setImageResource(cocktail.imageResourceId)
-        holder.cocktailName.text = resources?.getString(R.string.Cocktail_name,cocktail.name)
-        holder.cocktailGlassType.text = resources?.getString(R.string.Cocktail_glass_type, cocktail.glasstype)
-
+        return CocktailCardViewHolder(
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.vertical_list_item,
+                parent,
+                false
+            )
+        )
     }
+
+    override fun getItemCount(): Int {
+        return mCoctails.size
+//        return 5
+    }
+
+    override fun onBindViewHolder(
+        holder: CocktailCardAdapter.CocktailCardViewHolder, position: Int) {
+        holder.cocktailName.text = mCoctails?.get(position).toString()
+    }
+
+
 }
+
+

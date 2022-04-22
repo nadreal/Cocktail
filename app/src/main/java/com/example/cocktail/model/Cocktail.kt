@@ -1,11 +1,7 @@
 package com.example.cocktail.model
 
-import androidx.annotation.DrawableRes
-
-data class Cocktail (
-    @DrawableRes
-    val imageResourceId: Int,
-    val name: String,
-    val glasstype: String
-
-)
+class Cocktail() {
+    var strDrinkThumb: String? = null
+    var strDrink: String? = null
+    var strGlass: String? = null
+}
